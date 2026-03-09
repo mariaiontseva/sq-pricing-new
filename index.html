@@ -795,9 +795,45 @@
         margin-top: -10.5px;
       }
     }
+    .proto-switcher {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      z-index: 999;
+      display: flex;
+      gap: 0;
+      background: #1a1a2e;
+      border-radius: 8px;
+      padding: 4px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      font-family: monospace;
+      font-size: 13px;
+      user-select: none;
+    }
+    .proto-switcher button {
+      background: transparent;
+      color: #888;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.15s;
+    }
+    .proto-switcher button:hover { color: #ccc; }
+    .proto-switcher button.active {
+      background: #e04cf0;
+      color: #fff;
+    }
+    .pricing-version { display: none; }
+    .pricing-version.active { display: block; }
   </style>
 </head>
 <body>
+<div class="pricing-version active" id="version-v1">
 <div class="pricing-page">
 
   <!-- ════ HEADER ════ -->
@@ -1201,6 +1237,304 @@
   </section>
 
 </div>
+</div><!-- /version-v1 -->
+
+<div class="pricing-version" id="version-v2">
+<div class="pricing-page">
+
+  <!-- ════ HEADER ════ -->
+  <section class="pricing-header">
+    <h1>Simple, <span>transparent</span> pricing</h1>
+    <p class="subtitle">Pick your profiles. We'll recommend the right plan.</p>
+  </section>
+
+  <!-- ════ UNIFIED CONTROL BAR ════ -->
+  <section class="control-strip">
+    <div class="control-bar">
+      <!-- Slider inline -->
+      <div class="inline-slider-group">
+        <span class="slider-label-text">Profiles</span>
+        <div class="slider-track-inline">
+          <input type="range" id="v2ProfileSlider" min="1" max="30" value="1" step="1">
+        </div>
+        <div class="slider-value-inline">
+          <span class="slider-value" id="v2SliderValue">1</span>
+        </div>
+      </div>
+
+      <div class="control-divider"></div>
+
+      <!-- Billing -->
+      <div class="billing-toggle" id="v2BillingToggle">
+        <div class="billing-slider" id="v2BillingSlider"></div>
+        <button class="billing-option v2-billing" data-billing="annual">Annual<span class="billing-save">-15%</span></button>
+        <button class="billing-option v2-billing active" data-billing="monthly">Monthly</button>
+      </div>
+
+      <div class="control-divider"></div>
+
+      <!-- Currency -->
+      <div class="currency-row">
+        <button class="currency-btn v2-currency" data-currency="usd">$</button>
+        <button class="currency-btn v2-currency active" data-currency="gbp">£</button>
+        <button class="currency-btn v2-currency" data-currency="eur">€</button>
+      </div>
+
+      <!-- Mobile: billing + currency in one row below slider -->
+      <div class="mobile-controls-row">
+        <div class="billing-toggle" id="v2BillingToggleMobile">
+          <div class="billing-slider billing-slider-mobile"></div>
+          <button class="billing-option v2-billing" data-billing="annual">Annual<span class="billing-save">-15%</span></button>
+          <button class="billing-option v2-billing active" data-billing="monthly">Monthly</button>
+        </div>
+        <div class="currency-row">
+          <button class="currency-btn v2-currency" data-currency="usd">$</button>
+          <button class="currency-btn v2-currency active" data-currency="gbp">£</button>
+          <button class="currency-btn v2-currency" data-currency="eur">€</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ PLANS ════ -->
+  <section class="plans-container" style="max-width: 740px;">
+    <div class="plans-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+      <!-- ──── ESSENTIALS (recommended) ──── -->
+      <div class="plan-card" id="v2PlanBetter">
+        <div class="recommended-badge">Recommended</div>
+        <div class="plan-name-row">
+          <div class="plan-name">Essentials</div>
+          <span class="best-value-badge">Most Popular</span>
+        </div>
+        <div class="plan-tagline">Manage your organisation's social strategy</div>
+
+        <div class="plan-price-block">
+          <div class="plan-price">
+            <span class="plan-currency v2-currency-symbol">£</span>
+            <span class="plan-amount v2-price" id="v2BetterPrice">5</span>
+
+          </div>
+          <div class="plan-period-row">
+            <span class="plan-period">per month</span>
+            <span class="plan-billed v2-billed">Billed monthly</span>
+          </div>
+        </div>
+
+        <a href="#" class="plan-cta plan-cta-primary">
+          Start free trial
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+
+        <ul class="plan-limits">
+          <li class="plan-limit-row">
+            <span class="limit-label">Users</span>
+            <span class="limit-value-static">1</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Workspaces</span>
+            <span class="limit-value-static">1</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Social Profiles</span>
+            <span class="limit-value-static v2-profiles-better">1</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Importer</span>
+            <span class="limit-value-static feature-locked">Basic</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Analytics</span>
+            <span class="limit-value-static feature-locked">Basic</span>
+          </li>
+        </ul>
+
+        <button class="customize-toggle" onclick="toggleCustomize(this)">
+          Customise limits
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="plan-configurables">
+          <ul class="plan-limits">
+            <li class="plan-limit-row">
+              <span class="limit-label">Timeslots / day</span>
+              <select class="limit-select"><option value="5">5</option><option selected>10</option><option value="20">20</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">Categories</span>
+              <select class="limit-select"><option value="5">5</option><option selected>10</option><option value="20">20</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">Queued Posts</span>
+              <select class="limit-select"><option>200</option><option selected>500</option><option>1,000</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">RSS Importers</span>
+              <select class="limit-select"><option>2</option><option selected>5</option><option>10</option></select>
+            </li>
+          </ul>
+          <div class="addon-price">
+            <span class="addon-price-label">Add-ons total</span>
+            <span class="addon-price-value">+ £0.00/mo</span>
+          </div>
+        </div>
+
+        <hr class="plan-divider">
+        <div class="plan-features-label">What's included</div>
+        <ul class="plan-features">
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Queue & schedule posts
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Content recycling
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Basic analytics
+          </li>
+        </ul>
+      </div>
+
+      <!-- ──── TEAM ──── -->
+      <div class="plan-card" id="v2PlanBest">
+        <div class="plan-name-row">
+          <div class="plan-name">Team</div>
+        </div>
+        <div class="plan-tagline">For agencies managing multiple organisations</div>
+
+        <div class="plan-price-block">
+          <div class="plan-price">
+            <span class="plan-currency v2-currency-symbol">£</span>
+            <span class="plan-amount v2-price" id="v2BestPrice">10</span>
+          </div>
+          <div class="plan-period-row">
+            <span class="plan-period">per month</span>
+            <span class="plan-billed v2-billed">Billed monthly</span>
+          </div>
+        </div>
+
+        <a href="#" class="plan-cta plan-cta-secondary">
+          Start free trial
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+
+        <ul class="plan-limits">
+          <li class="plan-limit-row">
+            <span class="limit-label">Users</span>
+            <span class="limit-value-static">5</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Workspaces</span>
+            <span class="limit-value-static">Unlimited</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Social Profiles</span>
+            <span class="limit-value-static v2-profiles-best">1</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Importer</span>
+            <span class="limit-value-static feature-advanced">Advanced</span>
+          </li>
+          <li class="plan-limit-row">
+            <span class="limit-label">Analytics</span>
+            <span class="limit-value-static feature-advanced">Advanced</span>
+          </li>
+        </ul>
+
+        <button class="customize-toggle" onclick="toggleCustomize(this)">
+          Customise limits
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="plan-configurables">
+          <ul class="plan-limits">
+            <li class="plan-limit-row">
+              <span class="limit-label">Users</span>
+              <select class="limit-select"><option selected>5</option><option>10</option><option>20</option><option>50</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">Timeslots / day</span>
+              <select class="limit-select"><option>20</option><option selected>50</option><option>100</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">Categories</span>
+              <select class="limit-select"><option>20</option><option selected>50</option><option>100</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">Queued Posts</span>
+              <select class="limit-select"><option>1,000</option><option selected>2,000</option><option>5,000</option><option>10,000</option></select>
+            </li>
+            <li class="plan-limit-row">
+              <span class="limit-label">RSS Importers</span>
+              <select class="limit-select"><option>10</option><option selected>20</option><option>50</option></select>
+            </li>
+          </ul>
+          <div class="addon-price">
+            <span class="addon-price-label">Add-ons total</span>
+            <span class="addon-price-value">+ £0.00/mo</span>
+          </div>
+        </div>
+
+        <hr class="plan-divider">
+        <div class="plan-features-label">What's included</div>
+        <ul class="plan-features">
+          <li class="plan-feature inherited">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Queue & schedule posts
+          </li>
+          <li class="plan-feature inherited">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Content recycling
+          </li>
+          <li class="plan-feature inherited">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Basic analytics
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Advanced analytics & reports
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Advanced importer (social, CSV)
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Team collaboration
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            AI text generation
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Unlimited workspaces
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Priority support
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            White-label reports
+          </li>
+          <li class="plan-feature new-in-tier">
+            <span class="ci"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5.5l2.2 2L8 3" stroke="#1a9d5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Dedicated account manager
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</div><!-- /version-v2 -->
+
+<div class="proto-switcher">
+  <button class="active" data-version="v1">v1</button>
+  <button data-version="v2">v2</button>
+</div>
 
 <script>
   /* Billing toggle — sliding pill (syncs desktop + mobile) */
@@ -1415,6 +1749,116 @@
       }, 10);
     });
   });
+
+  // Version switcher
+  document.querySelectorAll('.proto-switcher button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.proto-switcher button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.pricing-version').forEach(v => v.classList.remove('active'));
+      document.getElementById('version-' + btn.dataset.version).classList.add('active');
+      // Re-init v2 billing slider positions after version becomes visible
+      if (btn.dataset.version === 'v2') {
+        requestAnimationFrame(() => requestAnimationFrame(v2UpdateBillingSliders));
+      }
+    });
+  });
+
+  /* ══════════════════════════════════════
+     V2 — PRICING LOGIC
+     ══════════════════════════════════════ */
+  (function() {
+    const v2Slider = document.getElementById('v2ProfileSlider');
+    const v2SliderValue = document.getElementById('v2SliderValue');
+    const v2BetterPrice = document.getElementById('v2BetterPrice');
+    const v2BestPrice = document.getElementById('v2BestPrice');
+    const v2ProfilesBetter = document.querySelector('.v2-profiles-better');
+    const v2ProfilesBest = document.querySelector('.v2-profiles-best');
+
+    // £5/profile/mo Essentials, £10/profile/mo Team. Annual = 20% off.
+    const ESSENTIALS_MO = 5;
+    const TEAM_MO = 10;
+    const ANNUAL_DISCOUNT = 0.8;
+
+    function v2GetBilling() {
+      const active = document.querySelector('.v2-billing.active');
+      return active ? active.dataset.billing : 'annual';
+    }
+
+    function v2Update() {
+      const profiles = parseInt(v2Slider.value);
+      const billing = v2GetBilling();
+      const isAnnual = billing === 'annual';
+
+      // Update slider display
+      v2SliderValue.textContent = profiles;
+      v2SliderValue.classList.add('bump');
+      setTimeout(() => v2SliderValue.classList.remove('bump'), 150);
+
+      // Update slider fill
+      const pct = ((profiles - 1) / 29) * 100;
+      v2Slider.style.setProperty('--fill', pct + '%');
+
+      // Update prices
+      const mult = isAnnual ? ANNUAL_DISCOUNT : 1;
+      const bp = Math.round(profiles * ESSENTIALS_MO * mult);
+      const bsp = Math.round(profiles * TEAM_MO * mult);
+      v2BetterPrice.textContent = bp;
+      v2BestPrice.textContent = bsp;
+
+      // Update profiles in limits
+      if (v2ProfilesBetter) v2ProfilesBetter.textContent = profiles;
+      if (v2ProfilesBest) v2ProfilesBest.textContent = profiles;
+
+      // Update billed text
+      document.querySelectorAll('.v2-billed').forEach(el => {
+        el.textContent = isAnnual ? 'Billed annually' : 'Billed monthly';
+      });
+    }
+
+    v2Slider.addEventListener('input', v2Update);
+
+    // V2 billing toggle
+    const v2BillingBtns = document.querySelectorAll('.v2-billing');
+    v2BillingBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const billing = btn.dataset.billing;
+        v2BillingBtns.forEach(b => b.classList.toggle('active', b.dataset.billing === billing));
+        v2UpdateBillingSliders();
+        v2Update();
+      });
+    });
+
+    // V2 currency
+    const v2CurrencyBtns = document.querySelectorAll('.v2-currency');
+    const v2CurrencySymbols = document.querySelectorAll('.v2-currency-symbol');
+    const currSymbols = { usd: '$', gbp: '\u00A3', eur: '\u20AC' };
+    v2CurrencyBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cur = btn.dataset.currency;
+        v2CurrencyBtns.forEach(b => b.classList.toggle('active', b.dataset.currency === cur));
+        v2CurrencySymbols.forEach(el => el.textContent = currSymbols[cur]);
+      });
+    });
+
+    // V2 billing slider pill positioning
+    window.v2UpdateBillingSliders = function() {
+      const v2Container = document.getElementById('version-v2');
+      if (!v2Container) return;
+      v2Container.querySelectorAll('.billing-toggle').forEach(toggle => {
+        const active = toggle.querySelector('.billing-option.active');
+        const slider = toggle.querySelector('.billing-slider');
+        if (!active || !slider) return;
+        const pad = parseInt(getComputedStyle(toggle).paddingLeft) || 2;
+        slider.style.width = active.offsetWidth + 'px';
+        slider.style.transform = 'translateX(' + (active.offsetLeft - pad) + 'px)';
+      });
+    };
+
+    // Init
+    v2Update();
+    requestAnimationFrame(() => requestAnimationFrame(window.v2UpdateBillingSliders));
+  })();
 </script>
 </body>
 </html>
