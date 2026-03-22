@@ -8401,7 +8401,7 @@ body.pricing .lp_intro_bg .lp_wrapper .message_box,
 	box-shadow:0 2px 12px rgba(7, 38, 83, 0.05);
 	padding:12px 20px;
 	margin:0 auto 24px;
-	max-width:760px;
+	max-width:none;
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
@@ -8930,8 +8930,11 @@ html.no-touch body[data-pricing_design="2"] .option_toggle a:hover
 
 body[data-pricing_design="2"] .lp_wrapper.pricing_toggles
 {
-	width:100%;
-	max-width:var(--pricing-layout-max-width);
+	width:1280px;
+	max-width:1280px;
+	margin-left:auto;
+	margin-right:auto;
+	box-sizing:border-box;
 }
 
 body[data-pricing_design="2"] #pricing_profile_slider_outer
@@ -8941,8 +8944,8 @@ body[data-pricing_design="2"] #pricing_profile_slider_outer
 	align-items:center;
 	gap:20px;
 	box-sizing:border-box;
-	width:calc(100% - 32px);
-	max-width:1120px;
+	width:100%;
+	max-width:none;
 	margin:18px auto 30px !important;
 	padding:10px 12px 10px 28px;
 	background:var(--pricing-card);
@@ -9247,8 +9250,8 @@ html.no-touch body[data-pricing_design="2"] #pricing_top_controls .currency a:ho
 		flex-direction:row;
 		flex-wrap:wrap;
 		gap:12px;
-		width:calc(100% - 32px);
-		max-width:1120px;
+		width:100%;
+		max-width:none;
 		margin:18px auto 28px !important;
 		padding:14px 16px;
 		border-radius:28px;
@@ -9278,7 +9281,7 @@ html.no-touch body[data-pricing_design="2"] #pricing_top_controls .currency a:ho
 {
 	body[data-pricing_design="2"] #pricing_profile_slider_outer
 	{
-		width:calc(100% - 24px);
+		width:100%;
 		padding:14px 14px 16px;
 		border-radius:24px;
 	}
@@ -29372,7 +29375,7 @@ body.marketing .ui-dialog[aria-describedby="dialog_welcome_referred_lead"] .ui-d
 					
 				</div>
 		</div>
-		</div><div class="pricing_toggles" style="max-width: 100% !important; width: 100% !important; padding-left: 0px !important; padding-right: 0px !important;">		<div id="pricing_profile_slider_outer" style="max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; margin-left: 0px !important; margin-right: 0px !important; padding-left: 20px !important; padding-right: 20px !important;">
+		</div><div class="lp_wrapper pricing_toggles">		<div id="pricing_profile_slider_outer">
 						<div id="pricing_profile_slider_row">
 				<div id="profile_slider_label" class="html_tooltip tooltipstered">Social Profiles <div class="help_text">?</div></div>
 				<div id="pricing_profile_slider_value">2</div>
@@ -32786,4 +32789,24 @@ when the page first loads -->
 
 <div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><div style="position: absolute; top: -10000px; left: -10000px; width: 100px; font-size: 16px; font-family: &quot;Proxima Nova W07&quot;, Arial, sans-serif; font-weight: 400; line-height: 22px; letter-spacing: 0px; resize: none; overflow-wrap: break-word;"></div>
 
+
+
+
+<style>
+body[data-pricing_design="2"] div.lp_wrapper.pricing_toggles,
+div.lp_wrapper.pricing_toggles,
+.pricing_toggles {
+  width: 1280px !important;
+  max-width: 1280px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+body[data-pricing_design="2"] #pricing_profile_slider_outer,
+#pricing_profile_slider_outer {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+</style>
 </body></html></html>
