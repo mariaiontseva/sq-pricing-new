@@ -1045,10 +1045,19 @@ input[type="range"]::-moz-range-thumb {
   .cmp_card { overflow: hidden; }
   .cmp_title { font-size: 18px; }
   .cmp_header {
-    padding-left: 101px !important;
+    padding-left: 0 !important;
     gap: 0 !important;
-    border-radius: 18px 18px 0 0;
     background: var(--pricing-card);
+    display: flex !important;
+  }
+  /* Add empty spacer matching label width */
+  .cmp_header::before {
+    content: '';
+    display: block;
+    width: 100px;
+    min-width: 100px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--pricing-line);
   }
   .cmp_header > div {
     font-size: 12px !important;
