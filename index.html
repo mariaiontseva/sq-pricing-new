@@ -1042,22 +1042,10 @@ input[type="range"]::-moz-range-thumb {
 
   /* Comparison tables on mobile */
   .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 24px !important; }
-  .cmp_card { overflow: hidden; }
+  .cmp_card { overflow: visible; border-radius: 14px; }
   .cmp_title { font-size: 18px; }
   .cmp_header {
-    padding-left: 0 !important;
-    gap: 0 !important;
-    background: var(--pricing-card);
-    display: flex !important;
-  }
-  /* Add empty spacer matching label width */
-  .cmp_header::before {
-    content: '';
-    display: block;
-    width: 100px;
-    min-width: 100px;
-    flex-shrink: 0;
-    border-right: 1px solid var(--pricing-line);
+    display: none !important;
   }
   .cmp_header > div {
     font-size: 12px !important;
