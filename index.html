@@ -724,6 +724,9 @@ input[type="range"]::-moz-range-thumb {
 /* Mobile plan tabs: hidden by default */
 .mobile_plan_tabs { display: none; }
 
+/* Mobile header rows: hidden by default */
+.cmp_row--header { display: none; }
+
 /* ── Responsive ── */
 @media (max-width: 1200px) {
   /* Everything shrinks together — labels always fit */
@@ -1044,16 +1047,14 @@ input[type="range"]::-moz-range-thumb {
   .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 24px !important; }
   .cmp_card { overflow: hidden; border-radius: 14px; }
   .cmp_title { font-size: 18px; }
-  .cmp_header {
+  .cmp_header { display: none !important; }
+  .cmp_row--header {
     display: flex !important;
-    padding-left: 0 !important;
-    gap: 0 !important;
-    background: var(--pricing-card);
+    border-top: none !important;
   }
-  .cmp_header::before {
-    content: '';
-    width: 100px; min-width: 100px; flex-shrink: 0;
-    border-right: 1px solid var(--pricing-line);
+  .cmp_row--header .cmp_cell {
+    font-size: 13px !important;
+    padding: 12px 4px !important;
   }
   .cmp_header > div {
     font-size: 12px !important;
@@ -1394,6 +1395,14 @@ input[type="range"]::-moz-range-thumb {
     <div class="cmp_header">
       <div>Solo</div><div>Business</div><div>Agency</div>
     </div>
+    <div class="cmp_row cmp_row--header">
+      <div class="cmp_row__label" style="font-weight:700;color:var(--pricing-ink)"></div>
+      <div class="cmp_vals">
+        <div class="cmp_cell" style="font-weight:700">Solo</div>
+        <div class="cmp_cell" style="font-weight:700">Business</div>
+        <div class="cmp_cell" style="font-weight:700">Agency</div>
+      </div>
+    </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Workspaces <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
@@ -1464,6 +1473,14 @@ input[type="range"]::-moz-range-thumb {
   <div class="cmp_card">
     <div class="cmp_header">
       <div>Solo</div><div>Business</div><div>Agency</div>
+    </div>
+    <div class="cmp_row cmp_row--header">
+      <div class="cmp_row__label" style="font-weight:700;color:var(--pricing-ink)"></div>
+      <div class="cmp_vals">
+        <div class="cmp_cell" style="font-weight:700">Solo</div>
+        <div class="cmp_cell" style="font-weight:700">Business</div>
+        <div class="cmp_cell" style="font-weight:700">Agency</div>
+      </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Video uploads (minutes/month) <span class="cmp_help">?</span></div>
