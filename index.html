@@ -1015,21 +1015,47 @@ input[type="range"]::-moz-range-thumb {
     flex-shrink: 0; margin-right: 12px;
   }
 
-  /* Controls */
-  #pricing_controls_wrap { width: auto !important; max-width: 100% !important; margin: 0 8px 16px !important; }
-  #pricing_profile_slider_outer {
-    flex-wrap: wrap; border-radius: 16px; padding: 14px 16px; gap: 10px;
-    max-width: 100%; margin: 0;
+  /* Controls: clean 2-row layout */
+  #pricing_controls_wrap {
+    margin: 0 8px 16px !important;
+    width: auto !important; max-width: 100% !important;
   }
-  .ctrl_divider { display: none; }
-  .ctrl_slider_wrap { flex: 1 1 100%; order: -1; }
+  #pricing_profile_slider_outer {
+    flex-wrap: wrap !important;
+    border-radius: 16px !important;
+    padding: 16px 18px !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  /* Slider row: full width */
+  .ctrl_label { order: 0; }
+  .ctrl_value { order: 0; }
+  .ctrl_slider_wrap { order: 0; flex: 1 0 60% !important; min-width: 120px; }
+  /* Hide dividers */
+  .ctrl_divider { display: none !important; }
+  /* Toggles row: centered below */
+  #billingToggle { order: 1; }
+  #currencyToggle { order: 1; }
 
   /* Comparison tables on mobile */
   .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 24px !important; }
   .cmp_card { overflow: hidden; }
   .cmp_title { font-size: 18px; }
-  .cmp_header { padding-left: 100px !important; gap: 0; }
-  .cmp_header > div { font-size: 12px; padding: 8px 4px; flex: 1; }
+  .cmp_header {
+    padding-left: 101px !important;
+    gap: 0 !important;
+    border-radius: 18px 18px 0 0;
+    background: var(--pricing-card);
+  }
+  .cmp_header > div {
+    font-size: 12px !important;
+    padding: 10px 4px !important;
+    flex: 1;
+    text-align: center;
+  }
   .cmp_row {
     flex-direction: row !important;
     height: auto; min-height: 44px;
