@@ -715,7 +715,21 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ── Responsive ── */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  /* Container shrinks so centered box + 180px labels always fit viewport */
+  /* Need: viewport/2 >= container/2 + 200px (180px label + 20px gap) */
+  .plans_section,
+  .cmp_section {
+    width: calc(100vw - 400px) !important;
+    max-width: 786px !important;
+  }
+
+  .plan_card_wrap {
+    flex: 1;
+    width: auto;
+    max-width: none;
+  }
+
   .plans_section,
   #pricing_profile_slider_outer {
     padding-left: 10px;
@@ -725,28 +739,40 @@ input[type="range"]::-moz-range-thumb {
   .plans_grid,
   .plans_cards,
   .feature_values {
-    gap: 12px;
+    gap: 10px;
   }
 
   .feature_row {
-    gap: 12px;
+    gap: 10px;
   }
 
   .plan_card__header {
-    padding: 20px 16px 0;
+    padding: 18px 12px 0;
   }
 
   .plan_card__body {
-    padding: 0 16px 14px;
+    padding: 0 12px 12px;
+  }
+
+  .plan_card__features {
+    padding: 0 12px 12px;
+  }
+
+  .plan_card__title {
+    font-size: 19px;
+  }
+
+  .plan_card__tagline {
+    font-size: 12px;
   }
 
   .price_value {
-    font-size: 42px;
+    font-size: 36px;
   }
 }
 
 /* ═══ TABLET ═══ */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .plans_section { display: none; }
   .cmp_section {
     width: auto; max-width: 100%; margin: 0 16px;
@@ -772,20 +798,22 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 18px;
     overflow: hidden;
     font-family: inherit;
+    table-layout: fixed;
   }
-  .tpt_label_col { width: 120px; }
   .tpt_plan_col {
     text-align: center;
     padding: 16px 10px;
-    vertical-align: top;
+    vertical-align: bottom;
     border-left: 1px solid var(--pricing-line);
     font-weight: normal;
   }
+  .tpt_label_col { width: 190px; }
+
   .tpt_plan_name {
     font-size: 18px; font-weight: 700; color: var(--pricing-ink); margin-bottom: 6px;
   }
   .tpt_plan_desc {
-    font-size: 11px; color: var(--pricing-muted); line-height: 1.4; margin-bottom: 10px; min-height: 32px;
+    font-size: 11px; color: var(--pricing-muted); line-height: 1.4; margin-bottom: 10px; min-height: 44px;
   }
   .tpt_plan_price {
     font-size: 14px; color: var(--pricing-ink); margin-bottom: 2px;
@@ -810,9 +838,27 @@ input[type="range"]::-moz-range-thumb {
     color: var(--pricing-ink); border-top: 1px solid var(--pricing-line);
     border-left: 1px solid var(--pricing-line);
   }
-  .tpt_label {
-    text-align: right; padding-right: 12px; font-size: 12px; font-weight: 500;
-    color: var(--pricing-muted); border-left: none;
+  td.tpt_label {
+    text-align: right !important;
+    padding: 12px 10px 12px 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: var(--pricing-muted) !important;
+    border-left: none !important;
+    line-height: 1.3 !important;
+  }
+  td.tpt_label .cmp_help {
+    display: inline-flex !important;
+    align-items: center; justify-content: center;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--pricing-accent);
+    color: #fff !important;
+    font-size: 10px !important;
+    font-weight: 700;
+    cursor: help;
+    vertical-align: middle;
+    margin-left: 4px;
   }
 
   .stepper__btn { width: 22px; height: 22px; font-size: 12px; }
@@ -833,25 +879,50 @@ input[type="range"]::-moz-range-thumb {
   /* Comparison tables */
   .cmp_row__label {
     display: flex !important; position: static;
-    width: 120px; min-width: 120px; flex-shrink: 0;
+    width: 190px; min-width: 190px; flex-shrink: 0;
     justify-content: flex-end; padding: 0 8px 0 0;
-    font-size: 11px; border-right: 1px solid var(--pricing-line);
+    font-size: 14px; border-right: 1px solid var(--pricing-line);
   }
-  .cmp_row__label .cmp_help { width: 14px; height: 14px; font-size: 9px; }
+  .cmp_row__label .cmp_help { width: 18px; height: 18px; font-size: 10px; }
   .cmp_row { height: auto; min-height: 44px; }
-  .cmp_header { gap: 0; padding-left: 121px; }
+  .cmp_header { gap: 0; padding-left: 191px; }
   .cmp_header > div { font-size: 12px; padding: 10px 4px; }
   .cmp_vals { gap: 0; }
   .cmp_cell { border-right: 1px solid var(--pricing-line); padding: 10px 4px; font-size: 12px; }
   .cmp_cell:last-child { border-right: none; }
   .cmp_title { font-size: 16px; padding-bottom: 10px; }
 
-  .sticky_bar { height: 48px; }
-  .sticky_bar__track#stickyLabel { display: none; }
-  .sticky_bar__name { font-size: 12px; }
-  .sticky_bar__price { font-size: 11px; }
-  .sticky_bar__cta { padding: 5px 8px; font-size: 10px; border-radius: 6px; }
-  .sticky_bar__plan { padding: 0 6px; gap: 6px; }
+  /* Spacing between tables */
+  .cmp_section { margin-top: 32px; }
+  .tablet_pricing_table { margin-bottom: 32px; }
+
+  /* Sticky bar: name+price row, full-width button below */
+  .sticky_bar { height: 68px; }
+  .sticky_bar__track#stickyLabel { display: flex; }
+  .sticky_bar__plan {
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 10px;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+  }
+  .sticky_bar__info {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+  }
+  .sticky_bar__name { font-size: 14px; }
+  .sticky_bar__price { font-size: 12px; }
+  .sticky_bar__cta {
+    padding: 5px 10px;
+    font-size: 11px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
   .bottom_notice { padding: 20px 16px; }
 }
 
@@ -1051,6 +1122,12 @@ input[type="range"]::-moz-range-thumb {
 
 <section class="tablet_pricing_table">
   <table>
+    <colgroup>
+      <col style="width:190px">
+      <col>
+      <col>
+      <col>
+    </colgroup>
     <thead>
       <tr>
         <th class="tpt_label_col"></th>
@@ -1059,7 +1136,7 @@ input[type="range"]::-moz-range-thumb {
           <div class="tpt_plan_desc">Brilliant for bloggers, solopreneurs and startups.</div>
           <div class="tpt_plan_price">£<span class="tpt_price_big">19</span>.99</div>
           <div class="tpt_plan_period">per month, paid annually*</div>
-          <a href="#" class="tpt_cta">Start your free trial</a>
+          <a href="#" class="tpt_cta">Start Trial</a>
         </th>
         <th class="tpt_plan_col">
           <span class="tpt_badge">Best Value</span>
@@ -1067,32 +1144,32 @@ input[type="range"]::-moz-range-thumb {
           <div class="tpt_plan_desc">All you need to succeed in managing your organisation's social strategy</div>
           <div class="tpt_plan_price">£<span class="tpt_price_big">33</span>.99</div>
           <div class="tpt_plan_period">per month, paid annually*</div>
-          <a href="#" class="tpt_cta">Start your free trial</a>
+          <a href="#" class="tpt_cta">Start Trial</a>
         </th>
         <th class="tpt_plan_col">
           <div class="tpt_plan_name">Agency</div>
           <div class="tpt_plan_desc">Manage social media for multiple organisations</div>
           <div class="tpt_plan_price">£<span class="tpt_price_big">69</span>.99</div>
           <div class="tpt_plan_period">per month, paid annually*</div>
-          <a href="#" class="tpt_cta">Start your free trial</a>
+          <a href="#" class="tpt_cta">Start Trial</a>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="tpt_label">Workspaces</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
-      <tr><td class="tpt_label">Users</td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>1</strong></td></tr>
-      <tr><td class="tpt_label">Social Profiles</td><td><strong>4</strong></td><td><strong>10</strong></td><td><strong>25</strong></td></tr>
-      <tr><td class="tpt_label">Timeslots / Day</td><td><strong>10</strong></td><td><strong>20</strong></td><td><strong>40</strong></td></tr>
-      <tr><td class="tpt_label">Content Categories</td><td><strong>10</strong></td><td><strong>20</strong></td><td><strong>50</strong></td></tr>
-      <tr><td class="tpt_label">Queued Posts</td><td><strong>500</strong></td><td><strong>1,000</strong></td><td><strong>2,500</strong></td></tr>
-      <tr><td class="tpt_label">Published Posts</td><td>50,000</td><td>50,000</td><td>50,000</td></tr>
-      <tr><td class="tpt_label">RSS Auto-Importers</td><td><strong>2</strong></td><td><strong>5</strong></td><td>25</td></tr>
-      <tr><td class="tpt_label">Scheduling</td><td>Advanced</td><td>Advanced</td><td>Advanced</td></tr>
-      <tr><td class="tpt_label">Importer</td><td>Basic</td><td>Intermediate</td><td>Advanced</td></tr>
-      <tr><td class="tpt_label">Analytics</td><td>Basic</td><td>Intermediate</td><td>Advanced</td></tr>
-      <tr><td class="tpt_label">Video (Mins/Month)</td><td>1,000</td><td>1,000</td><td>1,000</td></tr>
-      <tr><td class="tpt_label">AI Text (Words/Month)</td><td><strong>5,000</strong></td><td><strong>10,000</strong></td><td><strong>25,000</strong></td></tr>
-      <tr><td class="tpt_label">Tweets/Week</td><td><strong>5</strong></td><td><strong>5</strong></td><td><strong>5</strong></td></tr>
+      <tr><td class="tpt_label">Workspaces <span class="cmp_help">?</span></td><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td class="tpt_label">Users <span class="cmp_help">?</span></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>1</strong></td></tr>
+      <tr><td class="tpt_label">Social Profiles <span class="cmp_help">?</span></td><td><strong>4</strong></td><td><strong>10</strong></td><td><strong>25</strong></td></tr>
+      <tr><td class="tpt_label">Timeslots / Day <span class="cmp_help">?</span></td><td><strong>10</strong></td><td><strong>20</strong></td><td><strong>40</strong></td></tr>
+      <tr><td class="tpt_label">Content Categories <span class="cmp_help">?</span></td><td><strong>10</strong></td><td><strong>20</strong></td><td><strong>50</strong></td></tr>
+      <tr><td class="tpt_label">Queued Posts <span class="cmp_help">?</span></td><td><strong>500</strong></td><td><strong>1,000</strong></td><td><strong>2,500</strong></td></tr>
+      <tr><td class="tpt_label">Published Posts <span class="cmp_help">?</span></td><td>50,000</td><td>50,000</td><td>50,000</td></tr>
+      <tr><td class="tpt_label">RSS Auto-Importers <span class="cmp_help">?</span></td><td><strong>2</strong></td><td><strong>5</strong></td><td>25</td></tr>
+      <tr><td class="tpt_label">Scheduling <span class="cmp_help">?</span></td><td>Advanced</td><td>Advanced</td><td>Advanced</td></tr>
+      <tr><td class="tpt_label">Importer <span class="cmp_help">?</span></td><td>Basic</td><td>Intermediate</td><td>Advanced</td></tr>
+      <tr><td class="tpt_label">Analytics <span class="cmp_help">?</span></td><td>Basic</td><td>Intermediate</td><td>Advanced</td></tr>
+      <tr><td class="tpt_label">Video (Mins/Month) <span class="cmp_help">?</span></td><td>1,000</td><td>1,000</td><td>1,000</td></tr>
+      <tr><td class="tpt_label">AI Text (Words/Month) <span class="cmp_help">?</span></td><td><strong>5,000</strong></td><td><strong>10,000</strong></td><td><strong>25,000</strong></td></tr>
+      <tr><td class="tpt_label">Tweets/Week <span class="cmp_help">?</span></td><td><strong>5</strong></td><td><strong>5</strong></td><td><strong>5</strong></td></tr>
     </tbody>
   </table>
 </section>
