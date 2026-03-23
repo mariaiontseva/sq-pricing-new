@@ -956,7 +956,7 @@ input[type="range"]::-moz-range-thumb {
   /* Mobile plan tabs */
   .mobile_plan_tabs {
     display: flex;
-    margin: 0 8px 12px;
+    margin: 0 16px 12px;
     background: var(--pricing-line);
     border-radius: 12px;
     padding: 3px;
@@ -986,7 +986,7 @@ input[type="range"]::-moz-range-thumb {
   .plan_card_wrap.mobile_active { display: block; }
 
   /* Plans section: full width, no labels */
-  .plans_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; }
+  .plans_section { width: auto !important; max-width: 100% !important; margin: 0 16px !important; }
   .plans_label_col { display: none !important; }
 
   /* Cards: vertical stack */
@@ -1018,33 +1018,31 @@ input[type="range"]::-moz-range-thumb {
     flex-shrink: 0; margin-right: 12px;
   }
 
-  /* Controls: clean 2-row layout */
+  /* Controls: same margin as everything else */
   #pricing_controls_wrap {
-    margin: 0 8px 16px !important;
+    margin: 0 16px 12px !important;
     width: auto !important; max-width: 100% !important;
   }
   #pricing_profile_slider_outer {
-    flex-wrap: wrap !important;
-    border-radius: 16px !important;
-    padding: 16px 18px !important;
-    gap: 12px !important;
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+    gap: 10px 12px !important;
     margin: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
+    flex-wrap: wrap !important;
     justify-content: center !important;
   }
-  /* Slider row: full width */
-  .ctrl_label { order: 0; }
-  .ctrl_value { order: 0; }
-  .ctrl_slider_wrap { order: 0; flex: 1 0 60% !important; min-width: 120px; }
-  /* Hide dividers */
+  .ctrl_label { font-size: 13px; order: 0; }
+  .ctrl_value { font-size: 16px; font-weight: 700; order: 0; }
+  .ctrl_slider_wrap { order: 0; flex: 1 0 50% !important; min-width: 100px; }
   .ctrl_divider { display: none !important; }
-  /* Toggles row: centered below */
   #billingToggle { order: 1; }
   #currencyToggle { order: 1; }
+  .pill_btn { padding: 7px 12px; font-size: 13px; }
 
   /* Comparison tables on mobile */
-  .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 24px !important; }
+  .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 16px !important; margin-top: 24px !important; }
   .cmp_card { overflow: hidden; border-radius: 14px; }
   .cmp_title { font-size: 18px; }
   .cmp_header { display: none !important; }
