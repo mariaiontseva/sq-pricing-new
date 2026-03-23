@@ -721,6 +721,9 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 50px;
 }
 
+/* Mobile plan tabs: hidden by default */
+.mobile_plan_tabs { display: none; }
+
 /* ── Responsive ── */
 @media (max-width: 1200px) {
   /* Everything shrinks together — labels always fit */
@@ -947,6 +950,38 @@ input[type="range"]::-moz-range-thumb {
   .tablet_pricing_table { display: none !important; }
   .plans_section { display: block !important; }
 
+  /* Mobile plan tabs */
+  .mobile_plan_tabs {
+    display: flex;
+    margin: 0 8px 12px;
+    background: var(--pricing-line);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 3px;
+  }
+  .mobile_tab {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--pricing-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mobile_tab.active {
+    background: var(--pricing-card);
+    color: var(--pricing-ink);
+    box-shadow: 0 1px 4px rgba(7,38,83,0.1);
+  }
+
+  /* Show only one card at a time */
+  .plan_card_wrap { display: none; }
+  .plan_card_wrap.mobile_active { display: block; }
+
   /* Plans section: full width, no labels */
   .plans_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; }
   .plans_label_col { display: none !important; }
@@ -954,7 +989,7 @@ input[type="range"]::-moz-range-thumb {
   /* Cards: vertical stack */
   .plans_grid { display: block; }
   .plans_cards { display: flex; flex-direction: column; gap: 16px; }
-  .plan_card_wrap { flex: none; width: 100%; max-width: 100%; border-left: none; border-bottom: none; }
+  .plan_card_wrap.mobile_active { flex: none; width: 100%; max-width: 100%; border-left: none; border-bottom: none; }
   .plan_card { border-radius: 18px; border: 1px solid var(--pricing-line); box-shadow: 0 2px 12px rgba(7,38,83,0.06); }
 
   /* Card header */
@@ -989,20 +1024,36 @@ input[type="range"]::-moz-range-thumb {
   .ctrl_divider { display: none; }
   .ctrl_slider_wrap { flex: 1 1 100%; order: -1; }
 
-  /* Comparison tables */
-  .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 32px !important; }
+  /* Comparison tables on mobile */
+  .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 8px !important; margin-top: 24px !important; }
+  .cmp_card { overflow: hidden; }
   .cmp_title { font-size: 18px; }
-  .cmp_row { flex-direction: column; height: auto; min-height: auto; }
-  .cmp_row__label {
-    display: flex !important; position: static; width: 100%; min-width: auto;
-    justify-content: center; border-right: none; border-bottom: none;
-    padding: 10px 0 4px; font-weight: 600; font-size: 13px;
+  .cmp_header { padding-left: 100px !important; gap: 0; }
+  .cmp_header > div { font-size: 12px; padding: 8px 4px; flex: 1; }
+  .cmp_row {
+    flex-direction: row !important;
+    height: auto; min-height: 44px;
+    align-items: stretch;
   }
-  .cmp_vals { gap: 0; }
-  .cmp_cell { padding: 8px 4px; font-size: 13px; border-right: 1px solid var(--pricing-line); }
+  .cmp_row__label {
+    display: flex !important; position: static !important;
+    width: 100px !important; min-width: 100px !important;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    padding: 8px 6px 8px 4px !important;
+    font-size: 11px !important;
+    border-right: 1px solid var(--pricing-line) !important;
+    border-bottom: none;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .cmp_row__label .cmp_help { width: 14px; height: 14px; font-size: 8px; }
+  .cmp_vals { gap: 0 !important; flex: 1; }
+  .cmp_cell {
+    padding: 8px 4px !important; font-size: 12px !important;
+    border-right: 1px solid var(--pricing-line);
+  }
   .cmp_cell:last-child { border-right: none; }
-  .cmp_header { padding-left: 0; }
-  .cmp_header > div { font-size: 13px; padding: 10px 4px; }
 
   /* Sticky bar: compact */
   .sticky_bar { height: 44px; }
@@ -1070,6 +1121,13 @@ input[type="range"]::-moz-range-thumb {
       <button class="pill_btn" data-currency="eur">&euro;</button>
     </div>
   </div>
+</div>
+
+<!-- ═══ MOBILE PLAN TABS ═══ -->
+<div class="mobile_plan_tabs">
+  <button class="mobile_tab active" data-plan-index="0">Solo</button>
+  <button class="mobile_tab" data-plan-index="1">Business</button>
+  <button class="mobile_tab" data-plan-index="2">Agency</button>
 </div>
 
 <!-- ═══ PLANS WITH FEATURES INSIDE CARDS ═══ -->
@@ -1680,6 +1738,28 @@ input[type="range"]::-moz-range-thumb {
   setTimeout(syncLabels, 200);
   setTimeout(syncLabels, 500);
   window.addEventListener('resize', function() { setTimeout(syncLabels, 150); });
+
+  /* ── Mobile Plan Tabs ── */
+  var mobileTabs = document.querySelectorAll('.mobile_tab');
+  var planWraps = document.querySelectorAll('.plan_card_wrap');
+
+  function switchMobilePlan(index) {
+    mobileTabs.forEach(function(t, i) {
+      t.classList.toggle('active', i === index);
+    });
+    planWraps.forEach(function(w, i) {
+      w.classList.toggle('mobile_active', i === index);
+    });
+  }
+
+  // Set first plan active by default
+  if (planWraps.length) planWraps[0].classList.add('mobile_active');
+
+  mobileTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      switchMobilePlan(parseInt(this.dataset.planIndex));
+    });
+  });
 
 })();
 </script>
