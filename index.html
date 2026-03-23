@@ -727,6 +727,9 @@ input[type="range"]::-moz-range-thumb {
 /* Mobile header rows: hidden by default */
 .cmp_row--header { display: none; }
 
+/* Mobile sticky tabs: hidden by default */
+.mobile_sticky_tabs { display: none; }
+
 /* ── Responsive ── */
 @media (max-width: 1200px) {
   /* Everything shrinks together — labels always fit */
@@ -1085,14 +1088,55 @@ input[type="range"]::-moz-range-thumb {
   }
   .cmp_cell:last-child { border-right: none; }
 
-  /* Sticky bar: compact */
-  .sticky_bar { height: 44px; }
-  .sticky_bar__track#stickyLabel { display: none; }
-  .sticky_bar__plan { padding: 0 6px; gap: 6px; }
-  .sticky_bar__info { flex-direction: row; align-items: baseline; gap: 4px; }
-  .sticky_bar__name { font-size: 12px; }
-  .sticky_bar__price { font-size: 11px; }
-  .sticky_bar__cta { display: none; }
+  /* Hide desktop sticky bar on mobile */
+  .sticky_bar { display: none !important; }
+
+  /* Mobile sticky: tabs with prices */
+  .mobile_sticky_tabs {
+    display: flex;
+    position: fixed;
+    top: 56px; /* below mobile header */
+    left: 0; right: 0;
+    z-index: 4;
+    background: var(--pricing-card);
+    border-bottom: 1px solid var(--pricing-line);
+    box-shadow: 0 2px 8px rgba(7,38,83,0.06);
+    padding: 6px 16px;
+    gap: 6px;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  .mobile_sticky_tabs.visible {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .mobile_sticky_tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 6px 4px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .mobile_sticky_tab.active {
+    background: var(--pricing-bg);
+  }
+  .mobile_sticky_tab__name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pricing-ink);
+  }
+  .mobile_sticky_tab__price {
+    font-size: 11px;
+    color: var(--pricing-muted);
+  }
 
   /* Header */
   .lp_header { padding: 0 12px; height: 56px; }
@@ -1376,6 +1420,22 @@ input[type="range"]::-moz-range-thumb {
       <a href="#" class="sticky_bar__cta">Start trial</a>
     </div>
   </div>
+</div>
+
+<!-- ═══ MOBILE STICKY TABS ═══ -->
+<div class="mobile_sticky_tabs" id="mobileStickyTabs">
+  <button class="mobile_sticky_tab active" data-plan-index="0">
+    <span class="mobile_sticky_tab__name">Solo</span>
+    <span class="mobile_sticky_tab__price">&pound;19.99/mo</span>
+  </button>
+  <button class="mobile_sticky_tab" data-plan-index="1">
+    <span class="mobile_sticky_tab__name">Business</span>
+    <span class="mobile_sticky_tab__price">&pound;33.99/mo</span>
+  </button>
+  <button class="mobile_sticky_tab" data-plan-index="2">
+    <span class="mobile_sticky_tab__name">Agency</span>
+    <span class="mobile_sticky_tab__price">&pound;69.99/mo</span>
+  </button>
 </div>
 
 <!-- ═══ COMPARISON: TEAMS & BRANDS ═══ -->
@@ -1806,6 +1866,52 @@ input[type="range"]::-moz-range-thumb {
       switchMobilePlan(parseInt(this.dataset.planIndex));
     });
   });
+
+  /* ── Mobile Sticky Tabs ── */
+  var mobileStickyTabs = document.getElementById('mobileStickyTabs');
+  var mobileStickyButtons = mobileStickyTabs ? mobileStickyTabs.querySelectorAll('.mobile_sticky_tab') : [];
+  var mobileTabsEl = document.querySelector('.mobile_plan_tabs');
+
+  function updateMobileSticky() {
+    if (!mobileStickyTabs || window.innerWidth > 600) return;
+    if (!mobileTabsEl) return;
+
+    var tabsRect = mobileTabsEl.getBoundingClientRect();
+    if (tabsRect.bottom < 56) {
+      mobileStickyTabs.classList.add('visible');
+    } else {
+      mobileStickyTabs.classList.remove('visible');
+    }
+  }
+
+  // Sticky tabs also switch plans
+  mobileStickyButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = parseInt(this.dataset.planIndex);
+      switchMobilePlan(idx);
+      // Sync active state on sticky tabs
+      mobileStickyButtons.forEach(function(b, i) {
+        b.classList.toggle('active', i === idx);
+      });
+      // Sync regular tabs
+      mobileTabs.forEach(function(t, i) {
+        t.classList.toggle('active', i === idx);
+      });
+    });
+  });
+
+  // Sync sticky tabs when regular tabs clicked
+  mobileTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var idx = parseInt(this.dataset.planIndex);
+      mobileStickyButtons.forEach(function(b, i) {
+        b.classList.toggle('active', i === idx);
+      });
+    });
+  });
+
+  window.addEventListener('scroll', updateMobileSticky, { passive: true });
+  updateMobileSticky();
 
 })();
 </script>
