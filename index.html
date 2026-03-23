@@ -97,6 +97,13 @@ body {
   padding: 40px 0 20px;
 }
 
+/* ── Controls Wrapper — matches plans_section width ── */
+#pricing_controls_wrap {
+  width: calc(250px * 3 + var(--pricing-plan-gap) * 2);
+  max-width: calc(250px * 3 + var(--pricing-plan-gap) * 2);
+  margin: 0 auto;
+}
+
 /* ── Controls Bar ── */
 #pricing_profile_slider_outer {
   display: flex;
@@ -716,13 +723,10 @@ input[type="range"]::-moz-range-thumb {
 
 /* ── Responsive ── */
 @media (max-width: 1200px) {
-  /* Only plans section shrinks — labels hang left */
-  .plans_section {
-    width: calc(100vw - 400px) !important;
-    max-width: 786px !important;
-  }
-  /* Comparison tables match plans section width */
-  .cmp_section {
+  /* Everything shrinks together — labels always fit */
+  .plans_section,
+  .cmp_section,
+  #pricing_controls_wrap {
     width: calc(100vw - 400px) !important;
     max-width: 786px !important;
   }
@@ -732,6 +736,13 @@ input[type="range"]::-moz-range-thumb {
     width: auto;
     max-width: none;
   }
+
+  /* Controls bar: tighter to fit narrow container */
+  #pricing_profile_slider_outer {
+    gap: 12px;
+    padding: 8px 10px 8px 20px;
+  }
+  .pill_btn { padding: 7px 10px; font-size: 13px; }
 
   .plans_section,
   #pricing_profile_slider_outer {
@@ -872,22 +883,12 @@ input[type="range"]::-moz-range-thumb {
   .stepper { gap: 4px; }
   .badge_best_value { top: 10px; right: 6px; font-size: 9px; padding: 2px 7px; }
 
-  /* Controls: 2 rows — top: billing + currency, bottom: slider */
-  #pricing_profile_slider_outer {
-    display: grid !important;
-    grid-template-columns: 1fr auto auto;
-    grid-template-rows: auto auto;
-    gap: 10px 14px;
-    border-radius: 16px;
-    padding: 14px 18px;
-    margin: 0 16px 18px;
+  /* Controls: same style as desktop, just fits tablet width */
+  #pricing_controls_wrap {
+    margin: 0 16px 18px !important;
+    width: auto !important;
+    max-width: 100% !important;
   }
-  .ctrl_label { grid-column: 1; grid-row: 2; font-size: 13px; }
-  .ctrl_value { grid-row: 2; font-size: 16px; }
-  .ctrl_slider_wrap { grid-row: 2; min-width: 0; }
-  .ctrl_divider { display: none; }
-  .pill_group:first-of-type { grid-column: 1; grid-row: 1; }
-  .pill_group:last-of-type { grid-column: 2; grid-row: 1; }
   .pricing_title { font-size: 24px; padding: 20px 16px 12px; }
 
   /* Comparison tables */
@@ -989,8 +990,8 @@ input[type="range"]::-moz-range-thumb {
 <!-- ═══ TITLE ═══ -->
 <h1 class="pricing_title">Try SmarterQueue FREE</h1>
 
-<!-- ═══ PLANS WITH FEATURES INSIDE CARDS ═══ -->
-<section class="plans_section">
+<!-- ═══ CONTROLS BAR (outside plans_section so visible on tablet) ═══ -->
+<div id="pricing_controls_wrap">
   <div id="pricing_profile_slider_outer">
     <span class="ctrl_label">Social Profiles <span class="ctrl_help">?</span></span>
     <span class="ctrl_value" id="profileValue">4</span>
@@ -1009,6 +1010,10 @@ input[type="range"]::-moz-range-thumb {
       <button class="pill_btn" data-currency="eur">&euro;</button>
     </div>
   </div>
+</div>
+
+<!-- ═══ PLANS WITH FEATURES INSIDE CARDS ═══ -->
+<section class="plans_section">
   <div class="plans_grid">
     <!-- Left label column -->
     <div class="plans_label_col">
