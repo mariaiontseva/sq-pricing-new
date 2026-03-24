@@ -1086,49 +1086,64 @@ input[type="range"]::-moz-range-thumb {
   #currencyToggle { order: 1; }
   .pill_btn { padding: 7px 12px; font-size: 13px; }
 
-  /* Comparison tables on mobile */
+  /* Comparison tables: 2 columns — label + active plan only */
   .cmp_section { width: auto !important; max-width: 100% !important; margin: 0 16px !important; margin-top: 24px !important; }
   .cmp_card { overflow: hidden; border-radius: 14px; }
   .cmp_title { font-size: 18px; }
+
   .cmp_header { display: none !important; }
+
   .cmp_row--header {
-    display: flex !important;
-    border-top: none !important;
+    display: none !important;  /* plan names not needed — sticky tabs show which plan */
   }
-  .cmp_row--header .cmp_cell {
-    font-size: 13px !important;
-    padding: 12px 4px !important;
-  }
-  .cmp_header > div {
-    font-size: 12px !important;
-    padding: 10px 4px !important;
-    flex: 1;
-    text-align: center;
-  }
+
   .cmp_row {
     flex-direction: row !important;
-    height: auto; min-height: 44px;
+    height: auto;
+    min-height: 48px;
     align-items: stretch;
   }
+
   .cmp_row__label {
-    display: flex !important; position: static !important;
-    width: 100px !important; min-width: 100px !important;
-    flex-shrink: 0;
-    justify-content: flex-end;
-    padding: 8px 6px 8px 4px !important;
-    font-size: 11px !important;
-    border-right: 1px solid var(--pricing-line) !important;
-    border-bottom: none;
-    text-align: right;
-    line-height: 1.3;
+    display: flex !important;
+    position: static !important;
+    width: auto !important;
+    min-width: auto !important;
+    flex: 1;
+    justify-content: flex-start !important;
+    padding: 12px 12px 12px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: var(--pricing-muted) !important;
+    border-right: none !important;
+    line-height: 1.4 !important;
   }
-  .cmp_row__label .cmp_help { width: 14px; height: 14px; font-size: 8px; }
-  .cmp_vals { gap: 0 !important; flex: 1; }
+
+  .cmp_row__label .cmp_help {
+    width: 16px; height: 16px; font-size: 9px;
+  }
+
+  .cmp_vals {
+    gap: 0 !important;
+    flex: none;
+    width: auto;
+  }
+
+  /* Hide non-active plan cells */
   .cmp_cell {
-    padding: 8px 4px !important; font-size: 12px !important;
-    border-right: 1px solid var(--pricing-line);
+    display: none !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-right: none !important;
+    min-width: 100px;
+    justify-content: flex-end !important;
   }
-  .cmp_cell:last-child { border-right: none; }
+
+  /* Show only active plan cell */
+  .cmp_cell.mobile_plan_active {
+    display: flex !important;
+  }
 
   /* Hide desktop sticky bar on mobile */
   .sticky_bar { display: none !important; }
@@ -1536,57 +1551,57 @@ input[type="range"]::-moz-range-thumb {
     <div class="cmp_row cmp_row--header">
       <div class="cmp_row__label" style="font-weight:700;color:var(--pricing-ink)"></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" style="font-weight:700">Solo</div>
-        <div class="cmp_cell" style="font-weight:700">Business</div>
-        <div class="cmp_cell" style="font-weight:700">Agency</div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" style="font-weight:700">Solo</div>
+        <div class="cmp_cell" data-plan-index="1" style="font-weight:700">Business</div>
+        <div class="cmp_cell" data-plan-index="2" style="font-weight:700">Agency</div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Workspaces <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><strong>1</strong></div>
-        <div class="cmp_cell" data-plan="Business"><strong>1</strong></div>
-        <div class="cmp_cell" data-plan="Agency"><strong>Unlimited</strong></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><strong>1</strong></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><strong>1</strong></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><strong>Unlimited</strong></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Users <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><strong>1</strong></div>
-        <div class="cmp_cell" data-plan="Business"><strong>1</strong></div>
-        <div class="cmp_cell" data-plan="Agency"><strong>3+</strong><span class="cmp_addon">Add-ons available</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><strong>1</strong></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><strong>1</strong></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><strong>3+</strong><span class="cmp_addon">Add-ons available</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Social Profiles <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><strong>2</strong></div>
-        <div class="cmp_cell" data-plan="Business"><strong>5+</strong><span class="cmp_addon">Add-ons available</span></div>
-        <div class="cmp_cell" data-plan="Agency"><strong>5+</strong><span class="cmp_addon">Add-ons available</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><strong>2</strong></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><strong>5+</strong><span class="cmp_addon">Add-ons available</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><strong>5+</strong><span class="cmp_addon">Add-ons available</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">User permissions <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Workspace-specific user access <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Collaborate with comments <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_cross">&#10005;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
   </div>
@@ -1615,97 +1630,97 @@ input[type="range"]::-moz-range-thumb {
     <div class="cmp_row cmp_row--header">
       <div class="cmp_row__label" style="font-weight:700;color:var(--pricing-ink)"></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" style="font-weight:700">Solo</div>
-        <div class="cmp_cell" style="font-weight:700">Business</div>
-        <div class="cmp_cell" style="font-weight:700">Agency</div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" style="font-weight:700">Solo</div>
+        <div class="cmp_cell" data-plan-index="1" style="font-weight:700">Business</div>
+        <div class="cmp_cell" data-plan-index="2" style="font-weight:700">Agency</div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Video uploads (minutes/month) <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><strong>10</strong></div>
-        <div class="cmp_cell" data-plan="Business"><strong>60+</strong><span class="cmp_addon">Add-ons available</span></div>
-        <div class="cmp_cell" data-plan="Agency"><strong>200+</strong><span class="cmp_addon">Add-ons available</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><strong>10</strong></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><strong>60+</strong><span class="cmp_addon">Add-ons available</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><strong>200+</strong><span class="cmp_addon">Add-ons available</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Images, videos &amp; GIFs <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Carousels, Reels &amp; Stories <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Media Library <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Canva Integration <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Add image from URL <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Pixabay Image Library <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Unsplash Image Library <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Giphy GIF Library <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Bulk media upload <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
     <div class="cmp_row">
       <div class="cmp_row__label">Create posts from existing media <span class="cmp_help">?</span></div>
       <div class="cmp_vals">
-        <div class="cmp_cell" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
-        <div class="cmp_cell" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell mobile_plan_active" data-plan-index="0" data-plan="Solo"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="1" data-plan="Business"><span class="cmp_check">&#10003;</span></div>
+        <div class="cmp_cell" data-plan-index="2" data-plan="Agency"><span class="cmp_check">&#10003;</span></div>
       </div>
     </div>
   </div>
@@ -1929,6 +1944,17 @@ input[type="range"]::-moz-range-thumb {
   var mobileTabs = document.querySelectorAll('.mobile_tab');
   var planWraps = document.querySelectorAll('.plan_card_wrap');
 
+  /* ── Mobile: sync comparison tables with active plan ── */
+  function updateMobileComparisonCells(planIndex) {
+    var allCells = document.querySelectorAll('.cmp_section .cmp_cell');
+    allCells.forEach(function(cell) {
+      var idx = cell.getAttribute('data-plan-index');
+      if (idx !== null) {
+        cell.classList.toggle('mobile_plan_active', parseInt(idx) === planIndex);
+      }
+    });
+  }
+
   function switchMobilePlan(index) {
     mobileTabs.forEach(function(t, i) {
       t.classList.toggle('active', i === index);
@@ -1936,10 +1962,14 @@ input[type="range"]::-moz-range-thumb {
     planWraps.forEach(function(w, i) {
       w.classList.toggle('mobile_active', i === index);
     });
+    updateMobileComparisonCells(index);
   }
 
   // Set first plan active by default
   if (planWraps.length) planWraps[0].classList.add('mobile_active');
+
+  // Initial state for comparison table cells
+  updateMobileComparisonCells(0);
 
   mobileTabs.forEach(function(tab) {
     tab.addEventListener('click', function() {
