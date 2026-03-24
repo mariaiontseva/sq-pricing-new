@@ -292,13 +292,15 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 18px;
   background: var(--pricing-card);
   box-shadow: var(--pricing-shadow);
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
 }
 
 .plan_card__header {
   padding: 24px 20px 0;
   position: relative;
 }
+
 
 /* Feature rows INSIDE cards */
 .plan_card__features {
@@ -318,65 +320,70 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .plan_card__title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--pricing-ink);
-  margin: 0 0 6px;
-  line-height: 1.15;
+  margin: 0 0 8px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .plan_card__tagline {
   color: var(--pricing-muted);
-  font-size: 14px;
-  line-height: 1.45;
-  min-height: 60px;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 56px;
+  font-weight: 500;
 }
 
 .plan_price {
-  margin: 0 0 18px;
-  padding: 0 0 18px;
+  margin: 12px 0 14px;
+  padding: 0 0 14px;
   border-bottom: 1px solid var(--pricing-line);
 }
 
 .price_value {
-  font-size: 50px;
-  font-weight: 700;
+  font-size: 48px;
+  font-weight: 800;
   color: var(--pricing-ink);
   line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .price_currency {
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 600;
   vertical-align: top;
   position: relative;
-  top: 0.5em;
+  top: 0.45em;
 }
 
 .price_minor {
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 500;
   vertical-align: top;
   position: relative;
-  top: 0.5em;
+  top: 0.45em;
+  color: var(--pricing-muted);
 }
 
 .price_period {
   font-size: 13px;
   color: var(--pricing-muted);
-  margin-top: 4px;
+  margin-top: 6px;
+  font-weight: 500;
 }
 
 .plan_cta {
   display: block;
   width: 100%;
-  padding: 14px 18px;
+  padding: 13px 18px;
   background: var(--pricing-accent);
   border: none;
   border-radius: 10px;
   color: #fff;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   text-align: center;
   cursor: pointer;
   box-sizing: border-box;
@@ -384,6 +391,7 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 18px;
   font-family: inherit;
   transition: background 0.2s;
+  letter-spacing: -0.01em;
 }
 
 .plan_cta:hover {
@@ -394,17 +402,27 @@ input[type="range"]::-moz-range-thumb {
   padding: 0 20px 18px;
 }
 
-/* Best Value badge */
+/* Best Value badge — centered top of card */
 .badge_best_value {
-  background: #eef2f8;
-  color: var(--pricing-ink);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 14px;
+  background: var(--pricing-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 16px;
   border-radius: 20px;
   position: absolute;
-  top: 24px;
-  right: 20px;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Give space for badge above card */
+.plan_card:has(.badge_best_value) {
+  margin-top: 14px;
 }
 
 /* (feature rows now inside cards, old table removed) */
@@ -1262,8 +1280,8 @@ input[type="range"]::-moz-range-thumb {
       <!-- Business -->
       <div class="plan_card_wrap">
         <div class="plan_card">
+          <span class="badge_best_value">Best Value</span>
           <div class="plan_card__header">
-            <span class="badge_best_value">Best Value</span>
             <h2 class="plan_card__title">Business</h2>
             <p class="plan_card__tagline">All you need to succeed in managing your organisation's social strategy</p>
             <div class="plan_price">
