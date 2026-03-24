@@ -433,31 +433,56 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .stepper__btn {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1.5px solid var(--pricing-line);
+  border: 1.5px solid var(--pricing-accent);
   background: var(--pricing-card);
   color: var(--pricing-accent);
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  line-height: 1;
   font-family: inherit;
   transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Centered plus/minus icons via pseudo-elements */
+.stepper__btn::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.stepper__btn[data-action="inc"]::after {
+  content: '';
+  position: absolute;
+  width: 1.5px;
+  height: 12px;
+  background: currentColor;
+  border-radius: 1px;
 }
 
 .stepper__btn:hover {
+  background: rgba(64, 117, 191, 0.08);
   border-color: var(--pricing-accent);
-  background: rgba(64, 117, 191, 0.06);
 }
 
 .stepper__btn:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
+}
+
+.stepper__btn:disabled,
+.stepper__btn[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .stepper__val {
@@ -1108,18 +1133,19 @@ input[type="range"]::-moz-range-thumb {
   /* Hide desktop sticky bar on mobile */
   .sticky_bar { display: none !important; }
 
-  /* Mobile sticky: tabs with prices */
+  /* Mobile sticky: tabs + CTA */
   .mobile_sticky_tabs {
     display: flex;
+    flex-direction: column;
     position: fixed;
-    top: 56px; /* below mobile header */
+    top: 56px;
     left: 0; right: 0;
     z-index: 4;
     background: var(--pricing-card);
     border-bottom: 1px solid var(--pricing-line);
-    box-shadow: 0 2px 8px rgba(7,38,83,0.06);
-    padding: 6px 16px;
-    gap: 6px;
+    box-shadow: 0 4px 16px rgba(7,38,83,0.10);
+    padding: 8px 16px;
+    gap: 8px;
     transform: translateY(-100%);
     transition: transform 0.3s ease;
     pointer-events: none;
@@ -1128,21 +1154,36 @@ input[type="range"]::-moz-range-thumb {
     transform: translateY(0);
     pointer-events: auto;
   }
+  .mobile_sticky_tabs__row {
+    display: flex;
+    gap: 6px;
+  }
   .mobile_sticky_tab {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1px;
-    padding: 6px 4px;
-    border: none;
+    padding: 8px 4px;
+    border: 1.5px solid transparent;
     background: transparent;
     border-radius: 10px;
     font-family: inherit;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
   }
   .mobile_sticky_tab.active {
+    background: var(--pricing-accent);
+    border-color: var(--pricing-accent);
+  }
+  .mobile_sticky_tab.active .mobile_sticky_tab__name {
+    color: #fff;
+  }
+  .mobile_sticky_tab.active .mobile_sticky_tab__price {
+    color: rgba(255,255,255,0.8);
+  }
+  .mobile_sticky_tab:not(.active) {
+    border-color: var(--pricing-line);
     background: var(--pricing-bg);
   }
   .mobile_sticky_tab__name {
@@ -1153,6 +1194,25 @@ input[type="range"]::-moz-range-thumb {
   .mobile_sticky_tab__price {
     font-size: 11px;
     color: var(--pricing-muted);
+  }
+  .mobile_sticky_cta {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--pricing-accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .mobile_sticky_cta:hover {
+    background: var(--pricing-accent-hover);
   }
 
   /* Header */
@@ -1259,19 +1319,19 @@ input[type="range"]::-moz-range-thumb {
           </div>
           <div class="plan_card__features">
             <div class="plan_feature_row" data-label="Workspaces">Unlimited</div>
-            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="solo">&minus;</button><span class="stepper__val" id="users_solo">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="solo">+</button></div></div>
-            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="solo">&minus;</button><span class="stepper__val" id="profiles_solo">4</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="solo">+</button></div></div>
-            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="solo">&minus;</button><span class="stepper__val" id="timeslots_solo">10</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="solo">+</button></div></div>
-            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="solo">&minus;</button><span class="stepper__val" id="categories_solo">10</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="solo">+</button></div></div>
-            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="solo">&minus;</button><span class="stepper__val" id="queued_solo">500</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="solo">+</button></div></div>
+            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="solo"></button><span class="stepper__val" id="users_solo">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="solo"></button></div></div>
+            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="solo"></button><span class="stepper__val" id="profiles_solo">4</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="solo"></button></div></div>
+            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="solo"></button><span class="stepper__val" id="timeslots_solo">10</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="solo"></button></div></div>
+            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="solo"></button><span class="stepper__val" id="categories_solo">10</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="solo"></button></div></div>
+            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="solo"></button><span class="stepper__val" id="queued_solo">500</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="solo"></button></div></div>
             <div class="plan_feature_row" data-label="Published Posts">50,000</div>
-            <div class="plan_feature_row" data-label="RSS Auto-Importers"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="rss" data-plan="solo">&minus;</button><span class="stepper__val" id="rss_solo">2</span><button class="stepper__btn" data-action="inc" data-feature="rss" data-plan="solo">+</button></div></div>
+            <div class="plan_feature_row" data-label="RSS Auto-Importers"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="rss" data-plan="solo"></button><span class="stepper__val" id="rss_solo">2</span><button class="stepper__btn" data-action="inc" data-feature="rss" data-plan="solo"></button></div></div>
             <div class="plan_feature_row" data-label="Scheduling">Advanced</div>
             <div class="plan_feature_row" data-label="Importer">Basic</div>
             <div class="plan_feature_row" data-label="Analytics">Basic</div>
             <div class="plan_feature_row" data-label="Video (Mins/Month)">1,000</div>
-            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="solo">&minus;</button><span class="stepper__val" id="ai_solo">5,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="solo">+</button></div></div>
-            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="solo">&minus;</button><span class="stepper__val" id="tweets_solo">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="solo">+</button></div></div>
+            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="solo"></button><span class="stepper__val" id="ai_solo">5,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="solo"></button></div></div>
+            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="solo"></button><span class="stepper__val" id="tweets_solo">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="solo"></button></div></div>
           </div>
         </div>
       </div>
@@ -1293,19 +1353,19 @@ input[type="range"]::-moz-range-thumb {
           </div>
           <div class="plan_card__features">
             <div class="plan_feature_row" data-label="Workspaces">Unlimited</div>
-            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="business">&minus;</button><span class="stepper__val" id="users_business">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="business">+</button></div></div>
-            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="business">&minus;</button><span class="stepper__val" id="profiles_business">10</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="business">+</button></div></div>
-            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="business">&minus;</button><span class="stepper__val" id="timeslots_business">20</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="business">+</button></div></div>
-            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="business">&minus;</button><span class="stepper__val" id="categories_business">20</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="business">+</button></div></div>
-            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="business">&minus;</button><span class="stepper__val" id="queued_business">1,000</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="business">+</button></div></div>
+            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="business"></button><span class="stepper__val" id="users_business">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="business"></button></div></div>
+            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="business"></button><span class="stepper__val" id="profiles_business">10</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="business"></button></div></div>
+            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="business"></button><span class="stepper__val" id="timeslots_business">20</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="business"></button></div></div>
+            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="business"></button><span class="stepper__val" id="categories_business">20</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="business"></button></div></div>
+            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="business"></button><span class="stepper__val" id="queued_business">1,000</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="business"></button></div></div>
             <div class="plan_feature_row" data-label="Published Posts">50,000</div>
-            <div class="plan_feature_row" data-label="RSS Auto-Importers"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="rss" data-plan="business">&minus;</button><span class="stepper__val" id="rss_business">5</span><button class="stepper__btn" data-action="inc" data-feature="rss" data-plan="business">+</button></div></div>
+            <div class="plan_feature_row" data-label="RSS Auto-Importers"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="rss" data-plan="business"></button><span class="stepper__val" id="rss_business">5</span><button class="stepper__btn" data-action="inc" data-feature="rss" data-plan="business"></button></div></div>
             <div class="plan_feature_row" data-label="Scheduling">Advanced</div>
             <div class="plan_feature_row" data-label="Importer">Intermediate</div>
             <div class="plan_feature_row" data-label="Analytics">Intermediate</div>
             <div class="plan_feature_row" data-label="Video (Mins/Month)">1,000</div>
-            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="business">&minus;</button><span class="stepper__val" id="ai_business">10,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="business">+</button></div></div>
-            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="business">&minus;</button><span class="stepper__val" id="tweets_business">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="business">+</button></div></div>
+            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="business"></button><span class="stepper__val" id="ai_business">10,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="business"></button></div></div>
+            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="business"></button><span class="stepper__val" id="tweets_business">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="business"></button></div></div>
           </div>
         </div>
       </div>
@@ -1326,19 +1386,19 @@ input[type="range"]::-moz-range-thumb {
           </div>
           <div class="plan_card__features">
             <div class="plan_feature_row" data-label="Workspaces">Unlimited</div>
-            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="agency">&minus;</button><span class="stepper__val" id="users_agency">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="agency">+</button></div></div>
-            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="agency">&minus;</button><span class="stepper__val" id="profiles_agency">25</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="agency">+</button></div></div>
-            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="agency">&minus;</button><span class="stepper__val" id="timeslots_agency">40</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="agency">+</button></div></div>
-            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="agency">&minus;</button><span class="stepper__val" id="categories_agency">50</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="agency">+</button></div></div>
-            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="agency">&minus;</button><span class="stepper__val" id="queued_agency">2,500</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="agency">+</button></div></div>
+            <div class="plan_feature_row" data-label="Users"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="users" data-plan="agency"></button><span class="stepper__val" id="users_agency">1</span><button class="stepper__btn" data-action="inc" data-feature="users" data-plan="agency"></button></div></div>
+            <div class="plan_feature_row" data-label="Social Profiles"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="profiles" data-plan="agency"></button><span class="stepper__val" id="profiles_agency">25</span><button class="stepper__btn" data-action="inc" data-feature="profiles" data-plan="agency"></button></div></div>
+            <div class="plan_feature_row" data-label="Timeslots / Day"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="timeslots" data-plan="agency"></button><span class="stepper__val" id="timeslots_agency">40</span><button class="stepper__btn" data-action="inc" data-feature="timeslots" data-plan="agency"></button></div></div>
+            <div class="plan_feature_row" data-label="Content Categories"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="categories" data-plan="agency"></button><span class="stepper__val" id="categories_agency">50</span><button class="stepper__btn" data-action="inc" data-feature="categories" data-plan="agency"></button></div></div>
+            <div class="plan_feature_row" data-label="Queued Posts"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="queued" data-plan="agency"></button><span class="stepper__val" id="queued_agency">2,500</span><button class="stepper__btn" data-action="inc" data-feature="queued" data-plan="agency"></button></div></div>
             <div class="plan_feature_row" data-label="Published Posts">50,000</div>
             <div class="plan_feature_row" data-label="RSS Auto-Importers">25</div>
             <div class="plan_feature_row" data-label="Scheduling">Advanced</div>
             <div class="plan_feature_row" data-label="Importer">Advanced</div>
             <div class="plan_feature_row" data-label="Analytics">Advanced</div>
             <div class="plan_feature_row" data-label="Video (Mins/Month)">1,000</div>
-            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="agency">&minus;</button><span class="stepper__val" id="ai_agency">25,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="agency">+</button></div></div>
-            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="agency">&minus;</button><span class="stepper__val" id="tweets_agency">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="agency">+</button></div></div>
+            <div class="plan_feature_row" data-label="AI Text (Words/Month)"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="ai" data-plan="agency"></button><span class="stepper__val" id="ai_agency">25,000</span><button class="stepper__btn" data-action="inc" data-feature="ai" data-plan="agency"></button></div></div>
+            <div class="plan_feature_row" data-label="Tweets/Week"><div class="stepper"><button class="stepper__btn" data-action="dec" data-feature="tweets" data-plan="agency"></button><span class="stepper__val" id="tweets_agency">5</span><button class="stepper__btn" data-action="inc" data-feature="tweets" data-plan="agency"></button></div></div>
           </div>
         </div>
       </div>
@@ -1441,18 +1501,21 @@ input[type="range"]::-moz-range-thumb {
 
 <!-- ═══ MOBILE STICKY TABS ═══ -->
 <div class="mobile_sticky_tabs" id="mobileStickyTabs">
-  <button class="mobile_sticky_tab active" data-plan-index="0">
-    <span class="mobile_sticky_tab__name">Solo</span>
-    <span class="mobile_sticky_tab__price">&pound;19.99/mo</span>
-  </button>
-  <button class="mobile_sticky_tab" data-plan-index="1">
-    <span class="mobile_sticky_tab__name">Business</span>
-    <span class="mobile_sticky_tab__price">&pound;33.99/mo</span>
-  </button>
-  <button class="mobile_sticky_tab" data-plan-index="2">
-    <span class="mobile_sticky_tab__name">Agency</span>
-    <span class="mobile_sticky_tab__price">&pound;69.99/mo</span>
-  </button>
+  <div class="mobile_sticky_tabs__row">
+    <button class="mobile_sticky_tab active" data-plan-index="0">
+      <span class="mobile_sticky_tab__name">Solo</span>
+      <span class="mobile_sticky_tab__price">&pound;19.99/mo</span>
+    </button>
+    <button class="mobile_sticky_tab" data-plan-index="1">
+      <span class="mobile_sticky_tab__name">Business</span>
+      <span class="mobile_sticky_tab__price">&pound;33.99/mo</span>
+    </button>
+    <button class="mobile_sticky_tab" data-plan-index="2">
+      <span class="mobile_sticky_tab__name">Agency</span>
+      <span class="mobile_sticky_tab__price">&pound;69.99/mo</span>
+    </button>
+  </div>
+  <a href="#" class="mobile_sticky_cta" id="mobileStickyCtaBtn">Start your free trial</a>
 </div>
 
 <!-- ═══ COMPARISON: TEAMS & BRANDS ═══ -->
