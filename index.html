@@ -225,7 +225,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .pill_btn--active-dark {
-  background: var(--pricing-ink);
+  background: var(--pricing-accent);
   color: #fff;
   box-shadow: 0 1px 4px rgba(7,38,83,0.12);
 }
@@ -292,8 +292,7 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 18px;
   background: var(--pricing-card);
   box-shadow: var(--pricing-shadow);
-  overflow: visible;
-  position: relative;
+  overflow: hidden;
 }
 
 .plan_card__header {
@@ -337,9 +336,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .plan_price {
-  margin: 12px 0 14px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--pricing-line);
+  margin: 10px 0 16px;
+  padding: 0;
+  border-bottom: none;
 }
 
 .price_value {
@@ -348,6 +347,10 @@ input[type="range"]::-moz-range-thumb {
   color: var(--pricing-ink);
   line-height: 1;
   letter-spacing: -0.03em;
+  transition: opacity 0.2s ease;
+}
+.price_value.changing {
+  opacity: 0.3;
 }
 
 .price_currency {
@@ -388,7 +391,7 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   box-sizing: border-box;
   text-decoration: none;
-  margin-bottom: 18px;
+  margin-bottom: 0;
   font-family: inherit;
   transition: background 0.2s;
   letter-spacing: -0.01em;
@@ -399,30 +402,22 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .plan_card__body {
-  padding: 0 20px 18px;
+  padding: 0 20px 14px;
 }
 
-/* Best Value badge — centered top of card */
+/* Best Value badge — absolute inside header, top-right */
 .badge_best_value {
-  background: var(--pricing-accent);
-  color: #fff;
+  position: absolute;
+  top: 24px;
+  right: 16px;
+  background: #edf1f7;
+  color: var(--pricing-ink);
   font-size: 11px;
   font-weight: 700;
-  padding: 5px 16px;
+  padding: 4px 12px;
   border-radius: 20px;
-  position: absolute;
-  top: -13px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-}
-
-/* Give space for badge above card */
-.plan_card:has(.badge_best_value) {
-  margin-top: 14px;
 }
 
 /* (feature rows now inside cards, old table removed) */
@@ -438,14 +433,14 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .stepper__btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2px solid var(--pricing-accent);
-  background: #fff;
+  border: 1.5px solid var(--pricing-line);
+  background: var(--pricing-card);
   color: var(--pricing-accent);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -453,19 +448,23 @@ input[type="range"]::-moz-range-thumb {
   padding: 0;
   line-height: 1;
   font-family: inherit;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
 }
 
 .stepper__btn:hover {
-  background: var(--pricing-accent);
-  color: #fff;
+  border-color: var(--pricing-accent);
+  background: rgba(64, 117, 191, 0.06);
+}
+
+.stepper__btn:active {
+  transform: scale(0.92);
 }
 
 .stepper__val {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--pricing-ink);
-  min-width: 32px;
+  min-width: 36px;
   text-align: center;
 }
 
@@ -1280,8 +1279,8 @@ input[type="range"]::-moz-range-thumb {
       <!-- Business -->
       <div class="plan_card_wrap">
         <div class="plan_card">
-          <span class="badge_best_value">Best Value</span>
           <div class="plan_card__header">
+            <span class="badge_best_value">Best Value</span>
             <h2 class="plan_card__title">Business</h2>
             <p class="plan_card__tagline">All you need to succeed in managing your organisation's social strategy</p>
             <div class="plan_price">
@@ -1930,6 +1929,102 @@ input[type="range"]::-moz-range-thumb {
 
   window.addEventListener('scroll', updateMobileSticky, { passive: true });
   updateMobileSticky();
+
+  /* ── Dynamic Pricing ── */
+  var prices = {
+    solo:     { gbp: { annual: '19.99', monthly: '24.99' }, usd: { annual: '24.99', monthly: '29.99' }, eur: { annual: '23.99', monthly: '27.99' } },
+    business: { gbp: { annual: '33.99', monthly: '39.99' }, usd: { annual: '42.99', monthly: '49.99' }, eur: { annual: '40.99', monthly: '47.99' } },
+    agency:   { gbp: { annual: '69.99', monthly: '81.99' }, usd: { annual: '84.99', monthly: '99.99' }, eur: { annual: '80.99', monthly: '94.99' } }
+  };
+  var currencySymbols = { gbp: '\u00a3', usd: '$', eur: '\u20ac' };
+  var currentCurrency = 'gbp';
+  var currentBilling = 'annual';
+
+  // Profile add-on prices per plan
+  var profileAddon = {
+    solo: { gbp: 6, usd: 8, eur: 7 },
+    business: { gbp: 4, usd: 5, eur: 5 },
+    agency: { gbp: 3, usd: 4, eur: 4 }
+  };
+
+  function updateAllPrices() {
+    var plans = ['solo', 'business', 'agency'];
+    var priceEls = document.querySelectorAll('.plan_card .price_value');
+    var periodEls = document.querySelectorAll('.plan_card .price_period');
+    var currencyEls = document.querySelectorAll('.plan_card .price_currency');
+
+    plans.forEach(function(plan, i) {
+      if (!priceEls[i]) return;
+      var p = prices[plan][currentCurrency][currentBilling];
+      var parts = p.split('.');
+      var sym = currencySymbols[currentCurrency];
+
+      // Animate
+      priceEls[i].classList.add('changing');
+      setTimeout(function() {
+        currencyEls[i].textContent = sym;
+        priceEls[i].querySelector('.price_currency').textContent = sym;
+        // Find the text node with the major number
+        var major = parts[0];
+        var minor = '.' + parts[1];
+        // Update via innerHTML to keep structure
+        priceEls[i].innerHTML = '<span class="price_currency">' + sym + '</span>' + major + '<span class="price_minor">' + minor + '</span>';
+        priceEls[i].classList.remove('changing');
+      }, 200);
+
+      // Update period text
+      if (periodEls[i]) {
+        periodEls[i].textContent = currentBilling === 'annual' ? 'per month, paid annually*' : 'per month';
+      }
+    });
+
+    // Also update sticky bar prices
+    var stickyPrices = document.querySelectorAll('.sticky_bar__price');
+    plans.forEach(function(plan, i) {
+      if (stickyPrices[i]) {
+        var sym = currencySymbols[currentCurrency];
+        stickyPrices[i].textContent = sym + prices[plan][currentCurrency][currentBilling] + '/mo';
+      }
+    });
+
+    // Update mobile sticky tabs
+    var mobileStickyPrices = document.querySelectorAll('.mobile_sticky_tab__price');
+    plans.forEach(function(plan, i) {
+      if (mobileStickyPrices[i]) {
+        var sym = currencySymbols[currentCurrency];
+        mobileStickyPrices[i].textContent = sym + prices[plan][currentCurrency][currentBilling] + '/mo';
+      }
+    });
+
+    // Update tablet pricing table
+    var tptPrices = document.querySelectorAll('.tpt_plan_price');
+    plans.forEach(function(plan, i) {
+      if (tptPrices[i]) {
+        var sym = currencySymbols[currentCurrency];
+        var p = prices[plan][currentCurrency][currentBilling];
+        var parts = p.split('.');
+        tptPrices[i].innerHTML = sym + '<span class="tpt_price_big">' + parts[0] + '</span>.' + parts[1];
+      }
+    });
+  }
+
+  // Hook into billing toggle
+  var billingBtns = document.querySelectorAll('#billingToggle .pill_btn');
+  billingBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      currentBilling = this.dataset.billing === 'monthly' ? 'monthly' : 'annual';
+      updateAllPrices();
+    });
+  });
+
+  // Hook into currency toggle
+  var currencyBtns = document.querySelectorAll('#currencyToggle .pill_btn');
+  currencyBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      currentCurrency = this.dataset.currency || 'gbp';
+      updateAllPrices();
+    });
+  });
 
 })();
 </script>
